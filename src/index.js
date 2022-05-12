@@ -1,32 +1,30 @@
-import express from 'express';
-import { readdir } from 'fs/promises';
-import path from 'path';
+const express = require('express');
+const fs = require('fs');
+const path = require('path');
 
-import 'dotenv/config';
+require('dotenv').config();
 
 let app = express();
 const PORT = 3000;
 
 app.use(express.json());
 
-async function getDirectories(directory_path) {
-    const directories = (
-        await readdir(path.resolve(directory_path), {
+function getDirectories(directory_path) {
+    const directories = fs
+        .readdirSync(path.resolve(directory_path), {
             withFileTypes: true,
         })
-    )
         .filter((dirent) => dirent.isDirectory())
         .map((dirent) => dirent.name);
 
     return directories;
 }
 
-async function getFiles(directory_path) {
-    const files = (
-        await readdir(path.resolve(directory_path), {
+function getFiles(directory_path) {
+    const files = fs
+        .readdirSync(directory_path, {
             withFileTypes: true,
         })
-    )
         .filter((dirent) => dirent.isFile())
         .map((dirent) => dirent.name);
 
@@ -35,7 +33,7 @@ async function getFiles(directory_path) {
 
 const rootDirectory = process.env.ROOT_DIR ?? process.cwd();
 
-app.get('/', (_, res) => {
+app.get('/api', (_, res) => {
     res.send(['/api/fs/directory', '/api/fs/directory/:directoryId/files']);
 });
 
@@ -53,7 +51,7 @@ app.get('/api/fs/directory', async (req, res) => {
 //criteria 2
 app.get('/api/fs/directory/:directoryId/files', async (req, res) => {
     try {
-        const directories = await getDirectories(rootDirectory);
+        const directories = getDirectories(rootDirectory);
 
         const directoryId = req.params.directoryId;
 
@@ -62,7 +60,7 @@ app.get('/api/fs/directory/:directoryId/files', async (req, res) => {
         }
 
         //get files of specified directory
-        const files = await getFiles(path.join(rootDirectory, directoryId));
+        const files = getFiles(path.join(rootDirectory, directoryId));
 
         const ext = req.query.ext;
 
