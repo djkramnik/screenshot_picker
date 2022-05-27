@@ -5,7 +5,7 @@
 #### Backend requirement
 * 3 endpoints (GET, POST, DELETE) to read/add/remove filepaths under $SCREENSHOT_ROOT from a string json array in a local file `${process.env.SCREENSHOT_ROOT/delete.json`
 * 3 endpoints (GET, POST, DELETE) to read/add/remove filepaths under $SCREENSHOT_ROOT from a string json array in a local file `${process.env.SCREENSHOT_ROOT/upload.json`
-* node script to upload all file paths in upload.json that are within $SCREENSHOT_ROOT to amazon s3 and then optionally delete them on local fs if upload succeeds (need to make 
+* node script to upload all file paths in upload.json that are within $SCREENSHOT_ROOT to amazon s3 and then optionally delete them on local fs if upload succeeds (add aws-sdk to package.json dependencies)
 * node script to delete all file paths in delete.json that are within $SCREENSHOT_ROOT
 * serve a next.js based website described below
 
