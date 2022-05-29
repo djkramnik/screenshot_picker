@@ -9,7 +9,8 @@
     },
     "scripts": {
         "test": "jest --watch",
-        "start": "nodemon ./src/index.mjs"
+        "start": "nodemon ./src/index.mjs",
+        "deleteFiles": "node ./src/scripts/deleteFiles.js"
     },
     "keywords": [],
     "author": "",
