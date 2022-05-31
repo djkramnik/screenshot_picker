@@ -5,6 +5,7 @@ const router = express.Router();
 
 //a2
 //get, post, delete to read/add/remove filepaths from string json array in delete.json
+require('dotenv').config();
 
 router.get('/api/deleteFiles', (req, res) => {
     try {

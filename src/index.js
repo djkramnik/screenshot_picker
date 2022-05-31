@@ -11,6 +11,11 @@ const PORT = 3000;
 
 app.use(express.json());
 
+app.use(function (req, res, next) {
+    res.setHeader('Access-Control-Allow-Origin', `${process.env.FRONTEND_URL}`);
+    next();
+});
+
 app.get('/api', (_, res) => {
     res.send([
         '/api/fs/directory',
