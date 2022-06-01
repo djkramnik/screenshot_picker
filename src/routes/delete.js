@@ -1,39 +1,14 @@
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
+const router = express.Router();
 
-require('dotenv').config();
+//a2
+//get, post, delete to read/add/remove filepaths from string json array in delete.json
 
-const fsRoutes = require('./routes/fs');
-const deleteRoutes = require('./routes/delete');
-
-let app = express();
-const PORT = 3000;
-
-app.use(express.json());
-
-app.use(function (req, res, next) {
-    res.setHeader('Access-Control-Allow-Origin', `${process.env.FRONTEND_URL}`);
-    next();
-});
-
-app.get('/api', (_, res) => {
-    res.send([
-        '/api/fs/directory',
-        '/api/fs/directory/:directoryId/files',
-        '/api/deleteFiles',
-        '/api/deleteFiles/:filepath',
-    ]);
-});
-
-app.use(fsRoutes);
-app.use(deleteRoutes);
-
-app.get('/api/updateFiles', (req, res) => {
+router.get('/api/deleteFiles', (req, res) => {
     try {
-        const filePath = path.join(process.env.SCREENSHOT_ROOT, 'update.json');
-
-        console.log(filePath);
+        const filePath = path.join(process.env.SCREENSHOT_ROOT, 'delete.json');
 
         if (fs.existsSync(filePath)) {
             const buffer = fs.readFileSync(filePath);
@@ -48,9 +23,9 @@ app.get('/api/updateFiles', (req, res) => {
     }
 });
 
-app.post('/api/updateFiles/:filepath', (req, res) => {
+router.post('/api/deleteFiles/:filepath', (req, res) => {
     try {
-        const filePath = path.join(process.env.SCREENSHOT_ROOT, 'update.json');
+        const filePath = path.join(process.env.SCREENSHOT_ROOT, 'delete.json');
 
         //for handling file paths in URL, must encode/decode
         const buff = Buffer.from(req.params.filepath, 'base64');
@@ -91,9 +66,9 @@ app.post('/api/updateFiles/:filepath', (req, res) => {
     }
 });
 
-app.delete('/api/updateFiles/:filepath', (req, res) => {
+router.delete('/api/deleteFiles/:filepath', (req, res) => {
     try {
-        const filePath = path.join(process.env.SCREENSHOT_ROOT, 'update.json');
+        const filePath = path.join(process.env.SCREENSHOT_ROOT, 'delete.json');
 
         //for handling file paths in URL, must encode/decode
         const buff = Buffer.from(req.params.filepath, 'base64');
@@ -140,6 +115,4 @@ app.delete('/api/updateFiles/:filepath', (req, res) => {
     }
 });
 
-app.listen(PORT, () => {
-    console.log(`Server started. Listening on port ${PORT}`);
-});
+module.exports = router;
