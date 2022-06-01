@@ -1,10 +1,11 @@
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
-const fsRoutes = require('./routes/fs');
-const deleteRoutes = require('./routes/delete');
 
 require('dotenv').config();
+
+const fsRoutes = require('./routes/fs');
+const deleteRoutes = require('./routes/delete');
 
 let app = express();
 const PORT = 3000;

@@ -3,8 +3,6 @@ const fs = require('fs');
 const path = require('path');
 const router = express.Router();
 
-require('dotenv').config();
-
 //assignment 1
 
 function getDirectories(directory_path) {
